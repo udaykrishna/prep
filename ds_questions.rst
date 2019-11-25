@@ -196,6 +196,7 @@ https://stats.stackexchange.com/questions/352700/chi-squared-test-result-and-cra
 
 - chi squared
     - Used to find corelation between 2 Categorical features
+
     Note that as chi-squared values tend to increase with the number of cells, the greater the difference between r (rows) and c (columns), the more likely φc will tend to 1 without strong evidence of a meaningful correlation.[citation needed] 
 
 - pearson corelation
@@ -217,6 +218,7 @@ RMSE
 
 **reference**
   1. choosing_right_metric_
+
 The RMSE is the square root of the variance of the residuals. It indicates the absolute fit of the model to the data–how close the observed data points are to the model’s predicted values. Whereas R-squared is a relative measure of fit, RMSE is an absolute measure of fit. As the square root of a variance, RMSE can be interpreted as the standard deviation of the unexplained variance, and has the useful property of being in the same units as the response variable. Lower values of RMSE indicate better fit. RMSE is a good measure of how accurately the model predicts the response, and it is the most important criterion for fit if the main purpose of the model is prediction.
 
 .. math:: `\frac{1}{n}\sum^n{\sqrt {y_i-\hat{y_i}}^2}`
@@ -408,8 +410,10 @@ Ensemble
 
 Trees
 +++++
-    Hessian Matrix
-    ++++++++++++++++
+
+Hessian Matrix
+++++++++++++++++
+
     https://www.khanacademy.org/math/multivariable-calculus/applications-of-multivariable-derivatives/quadratic-approximations/a/the-hessian
 
 Random Forest
