@@ -418,6 +418,8 @@ Hessian Matrix
 
 Random Forest
 +++++++++++++
+    
+    https://www.datasciencecentral.com/profiles/blogs/random-forests-explained-intuitively
 
 Gradient Boosting
 +++++++++++++++++
@@ -442,8 +444,40 @@ https://www.analyticsvidhya.com/blog/2018/08/dimensionality-reduction-techniques
 https://towardsdatascience.com/the-mathematics-behind-principal-component-analysis-fff2d7f4b643
 https://distill.pub/2016/misread-tsne/
 https://towardsdatascience.com/a-one-stop-shop-for-principal-component-analysis-5582fb7e0a9c
+https://qr.ae/TifdAF
 
 PCA
+    .. code-block:: python
+
+        if n_samples <= n_features:
+            MAX_PRINCIPLE_COMPONENTS = n_samples - 1
+        else:
+            MAX_PRINCIPLE_COMPONENTS = n_features
+
+    .. rubric:: Nominal_variables A variable with values which have no numerical value, such as gender or occupation.
+    
+    In addition to the answer by Peter, I would differentiate between PCA as a 
+    technique and PCA applied to a dataset. PCA as a technique provides a low-rank
+    approximation of overall variability of the data you supply. As such, we can trust
+    it to perform its task.
+
+    For the second part, the technique is sensitive to the quality of the data, 
+    the type of data, scaling, data distribution etc etc. So in order to trust the
+    applied PCA you need to first trust your data and the operator to perform adequate
+    data pretreatment. But then, again, you can trust the PCA to do what it does.
+
+    However, what you are potentially interested may or may not be captured in 
+    the early components and overall variability may not be relevant for you.
+
+    Moreover, standard PCA has some underlying assumptions, e.g. about gaussianity, 
+    which may not be fulfilled for your dataset. Not all data are suitable for PCA.
+    Eg nominal variables. Binary and ordinal can be used, but you’d have to either make
+    some tweaks and/or check assumptions.
+
+    But I’d say the the question whether we can trust a PCA is like asking if we can 
+    trust a hammer. Both are tools. As such, we can trust them to provide a functionality.
+    However, we cannot necessarily trust the way tools are used.
+
 T-Sne
 
 kmeans vs knn
@@ -660,7 +694,7 @@ Update and reset Gate
 CNN
 +++
 - Fit one cycle
-    - Train each minibatch with decreasing learning rate until the loss explodes
+    - Train each minibatch with increasing learning rate until the loss explodes
     - plot the lr vs loss
     - Choice 1: Pick the value of lr where loss curve has the highest slope
     - Choice 2: choose lr = <lr with min loss>*0.1
