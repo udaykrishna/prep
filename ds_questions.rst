@@ -46,7 +46,6 @@ preceding events must be considered. In the case of three
 events, A, B, and C, the probability of the intersection
 P(A and B and C) = P(A)P(B|A)P(C|A and B).
 
-.. math:: `P(A|B) = \frac{P(A)P(B|A)}{P(B)}`
 
 Bayes Theorem
 +++++++++++++
@@ -109,8 +108,6 @@ symmetrical bell curve or the normal distribution.
               present in the distribution
               **not the peakedness**
 
-.. math:: `\frac{n}{(n-1)(n-2)}\sum_{i=1}^{n}{\frac{X_i-\bar{X}}{\sigma^3}} \\ where  \\ X_i = i^{th} \space element \space of \space distribution \\ \bar{X} = mean \space of \space the \space distribution \\ n = number \space of \space elements \space in \space distribution \\ \sigma = standard \space deviation \space of \space distribution`
-
 *High kurtosis is Indicator that data has heavy
 tails or outliers.*
 
@@ -123,6 +120,8 @@ we should investigate and trim the dataset of unwanted results
 
 .. math:: `kurt = \frac{n(n+1)}{(n-1)(n-2)(n-3)}(\frac{(x-\bar{x})}\sigma)^4-\frac{3(n-1)^2}{(n-2)(n-3)}`
 
+.. math:: `\text{where} X_i = i^{th} \\text{ element of distribution} \bar{X} = \\text{mean of the distribution} \\ \text{n = number of elements in distribution} \\ \sigma = \text{standard deviation of distribution}`
+
 .. image:: https://cdn-images-1.medium.com/max/1600/1*Nqu07THa7APRTOF7kaVr5Q.jpeg
 
 **Mesokurtic**:
@@ -132,6 +131,9 @@ we should investigate and trim the dataset of unwanted results
     It means that the extreme values of the distribution
     are similar to that of a normal distribution characteristic.
     The standard normal distribution has a kurtosis of three.
+
+
+    
 
 **Leptokurtic (Kurtosis > 3)**:
 
@@ -230,9 +232,11 @@ The RMSE is the square root of the variance of the residuals. It indicates the a
         2. r_squared_explained_towardsdatascience_
 
     :math:`R^2` shows how well terms (data points) fit a curve or line. Adjusted :math:`R^2` also indicates how well terms fit a curve or line, but adjusts for the number of terms in a model. If you add more and more useless variables to a model, adjusted r-squared will decrease. If you add more useful variables, adjusted :math:`R^2` will increase.
+
     .. math:: `\sum^n{\frac{{y_i-\hat{y_i}}^2}{{y_i-\bar{y_i}}^2}}`
 
     Adj-:math:`R^2`
+
     .. math:: `1-\frac{(1-R^2)(n-1)}{n-k-1}`
     
     Both R2 and the adjusted R2 give you an idea of how many data points fall within the line of the regression equation. However, there is one main difference between R2 and the adjusted R2: R2 assumes that every single variable explains the variation in the dependent variable. The adjusted R2 tells you the percentage of variation explained by only the independent variables that actually affect the dependent variable. 
@@ -379,10 +383,36 @@ Logistic regression
 
 Where :math:`\beta_i` are the trainable params i.e bias(:math:`\beta_0`) and weights(:math:`\beta_1 - \beta_n`)
 
+Eigen Vectors
++++++++++++++
+
+- http://setosa.io/ev/eigenvectors-and-eigenvalues/
+
+For a matrix A, vector :math:`v` and scalar :math:`\lambda` if :math:`A v = \lambda v` then we call :math:`v` an eigen vector and :math:`\lambda` an eigen value
+
+
 SVM
 ++++
  - Support Vectors
+    Support vectors are data points that are closer to the hyperplane and influence the position and orientation of the hyperplane. Using these support vectors, we maximize the margin of the classifier. Deleting the support vectors will change the position of the hyperplane. These are the points that help us build our SVM.
+ 
  - What to do if we have too many eigen Vectors
+    https://stats.stackexchange.com/questions/314329/can-support-vector-machine-be-used-in-large-data
+
+    
+    As you mention, storing the kernel matrix requires memory that scales quadratically with the number of data points. Training time for traditional SVM algorithms also scales superlinearly with the number of data points. So, these algorithms aren't feasible for large data sets.
+    One possible trick is to reformulate a kernelized SVM as a linear SVM. Each element $K_{ij}$ of the kernel matrix represents the dot product between data points $x_i$ and $x_j$ after mapping them (possibly nonlinearly) into a feature space: $K_{ij} = \Phi(x_i) \cdot \Phi(x_j)$. The feature space mapping $\Phi$ is defined implicitly by the kernel function, and kernelized SVMs don't explicitly compute feature space representations. This is computationally efficient for small to medium size datasets, as the feature space can be very high dimensional, or even infinite dimensional. But, as above, this becomes infeasible for large datasets. Instead, we can explicitly map the data nonlinearly into feature space, then efficiently train a linear SVM on the feature space representations. The feature space mapping can be constructed to approximate a given kernel function, but use fewer dimensions than the 'full' feature space mapping. For large datasets, this can still give us rich feature space representations, but with many fewer dimensions than data points.
+    One approach to kernel approximation uses the Nyström approximation (Williams and Seeger 2001). This is a way to approximate the eigenvalues/eigenvectors of a large matrix using a smaller submatrix. Another approach uses randomized features, and is somtimes called 'random kitchen sinks' (Rahimi and Recht 2007).
+    Another trick for training SVMs on large datasets is to approximate the optimization problem with a set of smaller subproblems. For example, using stochastic gradient descent on the primal problem is one approach (among many others). Much work has been done on the optimization front. Menon (2009) gives a good survey.
+    **References**
+
+    Williams and Seeger (2001). Using the Nystroem method to speed up kernel machines.
+    Rahimi and Recht (2007). Random features for large-scale kernel machines.
+    [Menon (2009)][1]. Large-scale support vector machines: Algorithms and theory.
+
+
+    [1]: https://pdfs.semanticscholar.org/975e/2e0204cb7a37f6b873795c425616a8678178.pdf
+
  - Different kernels
  - ``C`` and its significance
     how much you want to avoid misclassifying each training example. 
@@ -402,7 +432,10 @@ SVM
     will give you higher bias and low variance.
  
  https://stats.stackexchange.com/questions/31066/what-is-the-influence-of-c-in-svms-with-linear-kernel
+
  https://www.quora.com/What-are-C-and-gamma-with-regards-to-a-support-vector-machine
+
+ https://towardsdatascience.com/support-vector-machine-introduction-to-machine-learning-algorithms-934a444fca47
  - Equation for SVM
 
 Ensemble
@@ -600,6 +633,10 @@ the provided data
 - https://towardsdatascience.com/common-loss-functions-in-machine-learning-46af0ffc4d23
 - https://arxiv.org/pdf/1708.02002.pdf - Focal Loss for Dense Object Detection
 - https://www.reddit.com/r/MachineLearning/comments/aler62/d_l2_regularization_and_batch_norm/?utm_source=reddit-android
+- https://en.wikipedia.org/wiki/Matthews_correlation_coefficient
+- https://towardsdatascience.com/understanding-auc-roc-curve-68b2303cc9c5
+- http://gim.unmc.edu/dxtests/roc3.htm
+- https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html # references
 
 Activation Functions
 ++++++++++++++++++++
@@ -693,6 +730,8 @@ Update and reset Gate
 
 CNN
 +++
+http://cs231n.github.io/convolutional-networks
+
 - Fit one cycle
     - Train each minibatch with increasing learning rate until the loss explodes
     - plot the lr vs loss
@@ -800,3 +839,4 @@ Named Entity Recognition
 .. _choosing_right_metric: https://medium.com/usf-msds/choosing-the-right-metric-for-machine-learning-models-part-1-a99d7d7414e4
 .. _adjusted_r_squared_statisticshow: https://www.statisticshowto.datasciencecentral.com/adjusted-r2/
 .. _r_squared_explained_towardsdatascience: https://towardsdatascience.com/coefficient-of-determination-r-squared-explained-db32700d924e
+.. _xavier_initialization: https://prateekvjoshi.com/2016/03/29/understanding-xavier-initialization-in-deep-neural-networks/
